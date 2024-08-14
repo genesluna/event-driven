@@ -1,6 +1,11 @@
 import { Building, CalendarDays, ContactRound, MapPin } from 'lucide-react';
-import { Card, CardContent, CardFooter, CardHeader } from './ui/card';
-import { Button } from './ui/button';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 export default function EventCard() {
   return (
