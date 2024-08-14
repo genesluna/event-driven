@@ -1,0 +1,8 @@
+services:
+  event-driven-app:
+    build: .
+    container_name: event-driven-app
+    ports:
+      - 3000:3000
+    volumes:
+      - ../.:/home/node/app:cached
