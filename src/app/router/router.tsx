@@ -1,5 +1,5 @@
+import EventsDashboard from '@/features/events/dashboard/events-dashboard';
 import { createBrowserRouter } from 'react-router-dom';
-import EventsDashboard from '@/components/events-dashboard';
 import App from '@/app/app';
 
 export const router = createBrowserRouter([
