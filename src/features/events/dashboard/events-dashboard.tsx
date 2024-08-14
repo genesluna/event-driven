@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Calendar } from './ui/calendar';
-import { Card, CardHeader } from './ui/card';
+import { Calendar } from '@/components/ui/calendar';
+import { Card, CardHeader } from '@/components/ui/card';
 import EventCard from './event-card';
 
 export default function EventsDashboard() {
