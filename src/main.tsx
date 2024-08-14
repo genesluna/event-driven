@@ -1,3 +1,4 @@
+import { Toaster } from './components/ui/toaster.tsx';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './app/router/router.tsx';
 import { createRoot } from 'react-dom/client';
@@ -10,6 +11,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
       <RouterProvider router={router} />
+      <Toaster />
     </Provider>
   </StrictMode>
 );
