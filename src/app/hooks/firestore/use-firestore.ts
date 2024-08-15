@@ -138,7 +138,8 @@ export const useFireStore = <T extends DocumentData>(path: string) => {
     } catch (error: any) {
       console.log(error);
       toast({
-        title: 'Erro',
+        title: 'Algo não saiu como esperado',
+        variant: 'destructive',
         description: error.message,
       });
     }
@@ -150,7 +151,8 @@ export const useFireStore = <T extends DocumentData>(path: string) => {
     } catch (error: any) {
       console.log(error);
       toast({
-        title: 'Erro',
+        title: 'Algo não saiu como esperado',
+        variant: 'destructive',
         description: error.message,
       });
     }
@@ -162,7 +164,8 @@ export const useFireStore = <T extends DocumentData>(path: string) => {
     } catch (error: any) {
       console.log(error);
       toast({
-        title: 'Erro',
+        title: 'Algo não saiu como esperado',
+        variant: 'destructive',
         description: error.message,
       });
     }
