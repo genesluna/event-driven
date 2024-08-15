@@ -1,23 +1,54 @@
-import * as React from 'react';
-
+import { InputHTMLAttributes, ReactElement, forwardRef } from 'react';
 import { cn } from '@/app/lib/utils';
+import { LucideProps } from 'lucide-react';
 
-const Input = React.forwardRef<
-  HTMLInputElement,
-  React.InputHTMLAttributes<HTMLInputElement>
->(({ className, type, ...props }, ref) => {
-  return (
-    <input
-      type={type}
-      className={cn(
-        'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
-        className
-      )}
-      ref={ref}
-      {...props}
-    />
-  );
-});
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+  icon?: ReactElement<LucideProps>;
+  className?: string;
+  errorMessage?: string;
+}
+
+const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ label, icon, className, type, errorMessage, ...props }, ref) => {
+    return (
+      <div className={className}>
+        {label && (
+          <label
+            htmlFor={props.id}
+            className='mb-2 ms-1 block text-sm text-foreground'
+          >
+            {label}
+          </label>
+        )}
+        <div className='relative flex items-center'>
+          <input
+            type={type}
+            ref={ref}
+            className={cn(
+              'h-10 w-full rounded-md border border-input bg-background pl-10 text-sm transition file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+              className,
+              {
+                'border-red-500 dark:border-red-400': errorMessage,
+                'hover:border-primary focus:border-primary dark:hover:border-primary':
+                  !errorMessage,
+              }
+            )}
+            {...props}
+          />
+
+          <div className='absolute left-4'>{icon}</div>
+        </div>
+        {errorMessage && (
+          <p className='ms-3 mt-2 text-sm text-red-500 dark:text-red-400'>
+            {errorMessage}
+          </p>
+        )}
+      </div>
+    );
+  }
+);
+
 Input.displayName = 'Input';
 
-export { Input };
+export default Input;
