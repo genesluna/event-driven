@@ -144,7 +144,7 @@ export default function RegisterForm() {
             {isSubmitting ? (
               <Loader2 className='mr-2 h-4 w-4 animate-spin' />
             ) : null}
-            Entrar
+            Registrar
           </Button>
         </CardContent>
       </form>
