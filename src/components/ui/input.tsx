@@ -2,12 +2,12 @@ import { InputHTMLAttributes, ReactElement, forwardRef } from 'react';
 import { cn } from '@/app/lib/utils';
 import { LucideProps } from 'lucide-react';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
   icon?: ReactElement<LucideProps>;
   className?: string;
   errorMessage?: string;
-}
+};
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, icon, className, type, errorMessage, ...props }, ref) => {
@@ -16,7 +16,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={props.id}
-            className='mb-2 ms-1 block text-sm text-foreground'
+            className='mb-2 ms-1 block text-sm font-medium leading-none text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
           >
             {label}
           </label>
@@ -26,7 +26,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             type={type}
             ref={ref}
             className={cn(
-              'h-10 w-full rounded-md border border-input bg-background pl-10 text-sm transition file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+              'h-10 w-full rounded-md border border-input bg-background pl-10 text-sm text-muted-foreground transition file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
               className,
               {
                 'border-red-500 dark:border-red-400': errorMessage,
