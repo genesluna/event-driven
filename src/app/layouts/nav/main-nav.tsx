@@ -73,7 +73,11 @@ export default function MainNav() {
           </div>
         ) : (
           <div className='ml-auto flex gap-2 md:gap-2 lg:gap-4'>
-            <Button variant='secondary' className='gap-2'>
+            <Button
+              variant='secondary'
+              className='gap-2'
+              onClick={() => navigate('/events/new')}
+            >
               <CirclePlus className='h-4 w-4' />
               <span className='sr-only md:not-sr-only'>Novo Evento</span>
             </Button>
