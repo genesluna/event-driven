@@ -12,7 +12,7 @@ import {
 export type GenericState<T> = {
   data: T | [];
   status: 'loading' | 'finished' | 'error';
-  errors?: unknown;
+  errors?: any;
   loadedInitial?: boolean;
 };
 
@@ -56,7 +56,7 @@ export type GenericActions<T> = {
   loading: ActionCreatorWithoutPayload<string>;
   success:
     | ActionCreatorWithPayload<T, string>
-    | ActionCreatorWithPreparedPayload<unknown[], T, string, never, never>;
-  error: ActionCreatorWithOptionalPayload<unknown, string>;
-  reset: ActionCreatorWithOptionalPayload<unknown>;
+    | ActionCreatorWithPreparedPayload<any[], T, string, never, never>;
+  error: ActionCreatorWithOptionalPayload<any, string>;
+  reset: ActionCreatorWithOptionalPayload<any>;
 };
