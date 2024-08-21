@@ -5,6 +5,7 @@ import {
   CardFooter,
   CardHeader,
 } from '@/components/ui/card';
+import { useAppSelector } from '@/app/store/store';
 import { Button } from '@/components/ui/button';
 import { AppEvent } from '@/app/types/event';
 import { format } from 'date-fns';
@@ -14,11 +15,13 @@ type EventCardProps = {
 };
 
 export default function EventCard({ event }: EventCardProps) {
+  const { authenticated } = useAppSelector((state) => state.auth);
+
   return (
     <Card>
       <CardHeader>
         <img
-          src={`/src/assets/category-images/${event.category}.webp`}
+          src={`/category-images/${event.category}.webp`}
           alt='event main image'
           className='h-full w-full rounded-2xl object-cover'
         />
@@ -51,7 +54,9 @@ export default function EventCard({ event }: EventCardProps) {
         </div>
       </CardContent>
       <CardFooter className='flex gap-4'>
-        <Button variant='secondary'>Participar</Button>
+        <Button disabled={!authenticated} variant='secondary'>
+          Participar
+        </Button>
         <Button variant='outline'>Detalhes</Button>
       </CardFooter>
     </Card>
