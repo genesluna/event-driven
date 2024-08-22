@@ -4,6 +4,6 @@ export const categoryOptions = [
   { text: 'Comida', value: 'comida' },
   { text: 'Feira', value: 'feira' },
   { text: 'Festa', value: 'festa' },
-  { text: 'Musica', value: 'musica' },
+  { text: 'Música', value: 'musica' },
   { text: 'Viagem', value: 'viagem' },
 ];
