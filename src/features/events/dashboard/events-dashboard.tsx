@@ -1,31 +1,66 @@
-import { useState } from 'react';
-import { Calendar } from '@/components/ui/calendar';
-import { Card, CardHeader } from '@/components/ui/card';
-import EventCard from './event-card';
+import { useAppDispatch, useAppSelector } from '@/app/store/store';
+import { useFireStore } from '@/app/hooks/firestore/use-firestore';
+import { QueryOptions } from '@/app/hooks/firestore/types';
+import LoadingSpinner from '@/components/loadind-spinner';
+import { useCallback, useEffect, useState } from 'react';
+import EventFilters from './components/event-filters';
+import EventsList from './components/events-list';
+import { actions } from '../event-slice';
 
 export default function EventsDashboard() {
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const dispatch = useAppDispatch();
+
+  const {
+    data: events,
+    status,
+    loadedInitial,
+  } = useAppSelector((state) => state.events);
+  const { loadCollection, hasMore } = useFireStore('events');
+  const [query, setQuery] = useState<QueryOptions[]>([
+    { attribute: 'date', operator: '>=', value: new Date() },
+  ]);
+
+  const loadEvents = useCallback(
+    async (reset?: boolean) => {
+      loadCollection(actions, {
+        queries: query,
+        limit: 2,
+        sort: { attribute: 'date', order: 'asc' },
+        pagination: true,
+        reset,
+        get: true,
+      });
+    },
+    [loadCollection, query]
+  );
+
+  useEffect(() => {
+    loadEvents(true);
+
+    return () => {
+      dispatch(actions.reset());
+    };
+  }, [loadEvents, dispatch]);
+
+  function loadMore() {
+    loadEvents();
+  }
   return (
     <div className='flex flex-row gap-10'>
       <section className='flex basis-9/12'>
-        <EventCard />
-      </section>
-      <aside className='basis-3/12 flex-col justify-center'>
-        <section>
-          <Card className='rounded-md border bg-card'>
-            <CardHeader>
-              <h3 className='text-xl font-semibold'>Filtros</h3>
-            </CardHeader>
-          </Card>
-        </section>
-        <section className='mt-4'>
-          <Calendar
-            mode='single'
-            selected={date}
-            onSelect={setDate}
-            className='rounded-md border bg-card'
+        {!loadedInitial ? (
+          <LoadingSpinner />
+        ) : (
+          <EventsList
+            events={events}
+            loadMore={loadMore}
+            hasMore={hasMore.current}
+            loading={status === 'loading'}
           />
-        </section>
+        )}
+      </section>
+      <aside className='sticky top-[calc(_theme(spacing.16)+_2.5rem)] h-[calc(100vh_-_theme(spacing.64))] w-full basis-3/12 flex-col'>
+        <EventFilters setQuery={setQuery} />
       </aside>
     </div>
   );
