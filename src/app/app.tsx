@@ -1,3 +1,4 @@
+import MapsWrapper from '@/features/events/components/maps-wrapper';
 import { Outlet, ScrollRestoration } from 'react-router-dom';
 import { ThemeProvider } from '@/components/theme-provider';
 import { logout, signIn } from '@/features/auth/auth-slice';
@@ -30,9 +31,11 @@ function App() {
   return (
     <ThemeProvider>
       <MainLayout>
-        <Outlet />
-        <ScrollRestoration />
+        <MapsWrapper>
+          <Outlet />
+        </MapsWrapper>
       </MainLayout>
+      <ScrollRestoration />
     </ThemeProvider>
   );
 }
