@@ -1,84 +1,13 @@
 <!doctype html>
 <html lang="pt-br">
   <head>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      .loading-wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-        min-width: 100vw;
-      }
-      .loading-wrapper svg circle {
-        transform-origin: 50px 50px;
-        animation: 1s linear infinite rotate;
-        stroke: #ea580c;
-      }
-      @keyframes rotate {
-        from {
-          transform: rotate(0);
-        }
-        to {
-          transform: rotate(360deg);
-        }
-      }
-      @media (prefers-color-scheme: dark) {
-        .loading-wrapper {
-          background-color: hsl(12 6.5% 15.1% / 0.4);
-        }
-        body {
-          background-color: hsl(20 14.3% 4.1%);
-        }
-      }
-      @media (prefers-color-scheme: light) {
-        .loading-wrapper {
-          background-color: hsl(60 4.8% 95.9%);
-        }
-        body {
-          background-color: hsl(0 0% 100%);
-        }
-      }
-    </style>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EventDriven</title>
   </head>
   <body>
-    <div id="root">
-      <main
-        class="loading-wrapper"
-        aria-roledescription="loading"
-        role="status"
-        aria-label="loading"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="xMidYMid"
-          style="shape-rendering: auto; display: block; background: transparent"
-          width="120"
-          height="120"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-        >
-          <circle
-            stroke-linecap="round"
-            fill="none"
-            stroke-dasharray="50.26548245743669 50.26548245743669"
-            stroke-width="8"
-            r="32"
-            cy="50"
-            cx="50"
-          />
-        </svg>
-      </main>
-    </div>
+    <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
