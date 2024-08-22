@@ -235,7 +235,7 @@ export default function EventForm() {
               requestOptions={{
                 types: ['establishment'],
                 locationBias: new google.maps.Circle({
-                  radius: 1000,
+                  radius: 25000,
                   center: new google.maps.LatLng(
                     form.getValues().latLng as LatLng
                   ),
