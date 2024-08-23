@@ -9,7 +9,7 @@ type Props = {
 export default function MapsWrapper({ children }: Props) {
   const render = (status: Status) => {
     if (status === Status.FAILURE) return <h2>Erro carregando mapa</h2>;
-    return <LoadingSpinner />;
+    return <LoadingSpinner visible={false} />;
   };
 
   return (
