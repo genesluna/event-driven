@@ -5,17 +5,19 @@ import {
   CardFooter,
   CardHeader,
 } from '@/components/ui/card';
-import { useAppSelector } from '@/app/store/store';
+
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 import { AppEvent } from '@/app/types/event';
 import { format } from 'date-fns';
+import { extractPlaceName } from '@/app/lib/utils';
 
 type EventCardProps = {
   event: AppEvent;
 };
 
 export default function EventCard({ event }: EventCardProps) {
-  const { authenticated } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   return (
     <Card>
@@ -35,29 +37,33 @@ export default function EventCard({ event }: EventCardProps) {
             <span className='text-muted-foreground'>{event.hostedBy}</span>
           </div>
           <div className='flex items-center gap-2'>
-            {/* <span className='font-thin text-muted-foreground'>|</span> */}
             <CalendarDays className='h-4 w-4 shrink-0 text-primary' />
             <span className='text-muted-foreground'>
               {format(new Date(event.date), 'PPPPp')}
             </span>
           </div>
           <div className='flex items-center gap-2'>
-            {/* <span className='font-thin text-muted-foreground'>|</span> */}
             <MapPin className='h-4 w-4 shrink-0 text-primary' />
             <span className='text-muted-foreground'>{event.city}</span>
           </div>
           <div className='flex items-center gap-2'>
-            {/* <span className='font-thin text-muted-foreground'>|</span> */}
             <Building className='h-4 w-4 shrink-0 text-primary' />
-            <span className='text-muted-foreground'>{event.venue}</span>
+            <span className='text-muted-foreground'>
+              {extractPlaceName(event.venue)}{' '}
+            </span>
           </div>
         </div>
       </CardContent>
       <CardFooter className='flex gap-4'>
-        <Button disabled={!authenticated} variant='secondary'>
-          Participar
+        <Button
+          variant='secondary'
+          className='min-w-44'
+          onClick={() => {
+            navigate(`/events/${event.id}`);
+          }}
+        >
+          Saiba mais
         </Button>
-        <Button variant='outline'>Detalhes</Button>
       </CardFooter>
     </Card>
   );
