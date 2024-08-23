@@ -43,3 +43,27 @@ export function formatTime(date: Date): string {
   const strTime: string = `${hours}:${formattedMinutes} ${ampm}`;
   return strTime;
 }
+
+export function getInitials(name: string): string {
+  const nameParts = name.split(' ');
+
+  if (nameParts.length === 0) {
+    return '';
+  }
+
+  const firstInitial = nameParts[0][0].toUpperCase();
+
+  if (nameParts.length === 1) {
+    return firstInitial;
+  }
+
+  const lastInitial = nameParts[nameParts.length - 1][0].toUpperCase();
+
+  return `${firstInitial}${lastInitial}`;
+}
+
+export function extractPlaceName(address: string): string {
+  const parts = address.split('-').map((part) => part.trim());
+
+  return parts[0];
+}
