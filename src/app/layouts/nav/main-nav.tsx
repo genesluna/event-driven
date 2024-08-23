@@ -3,6 +3,7 @@ import { useToast } from '@/app/hooks/use-toast';
 import { useAppSelector } from '@/app/store/store';
 import Logo from '@/components/logo';
 import { ModeToggle } from '@/components/mode-toggle';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -45,18 +46,12 @@ export default function MainNav() {
             |
           </span>
         </NavLink>
-        <a
-          href='#'
+        <NavLink
+          to='/'
           className='text-foreground transition-colors hover:text-foreground'
         >
           Eventos
-        </a>
-        <a
-          href='#'
-          className='text-muted-foreground transition-colors hover:text-foreground'
-        >
-          Pessoas
-        </a>
+        </NavLink>
       </nav>
       <div className='flex w-full items-center gap-2 md:ml-auto md:gap-2 lg:gap-4'>
         {!currentUser ? (
@@ -84,23 +79,23 @@ export default function MainNav() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant='outline' size='icon' className='rounded-full'>
-                  {currentUser.photoURL ? (
-                    <img
-                      src={currentUser.photoURL}
+                  <Avatar>
+                    <AvatarImage
+                      src={currentUser.photoURL || undefined}
                       alt={currentUser.displayName || 'User'}
-                      className='h-8 w-8 rounded-full'
                     />
-                  ) : (
-                    <CircleUser className='h-5 w-5' />
-                  )}
+                    <AvatarFallback className='bg-transparent'>
+                      <CircleUser className='h-5 w-5' />
+                    </AvatarFallback>
+                  </Avatar>
                   <span className='sr-only'>Toggle user menu</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align='end'>
-                <DropdownMenuLabel>{currentUser.email}</DropdownMenuLabel>
+                <DropdownMenuLabel>{currentUser.displayName}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
+                <DropdownMenuItem>Perfil</DropdownMenuItem>
                 <DropdownMenuItem>Ajustes</DropdownMenuItem>
-                <DropdownMenuItem>Suporte</DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleSignOut}>
                   Sair
