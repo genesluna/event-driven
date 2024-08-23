@@ -13,7 +13,7 @@ import {
 import { categoryOptions } from '../../form/category-options';
 import { Label } from '@/components/ui/label';
 import PlacesAutoComplete from '@/components/ui/places-auto-complete';
-import { MapPin } from 'lucide-react';
+import { Filter, MapPin } from 'lucide-react';
 
 type Props = {
   setQuery: (query: QueryOptions[]) => void;
@@ -65,19 +65,25 @@ export default function EventFilters({ setQuery }: Props) {
     <section className='flex w-full justify-center'>
       <Card className='w-full'>
         <CardHeader>
-          <h3 className='text-xl font-semibold'>Filtros</h3>
+          <div className='flex flex-row items-center gap-2'>
+            <Filter className='h-4 w-4' />
+            <h3 className='text-xl font-semibold'>Filtros</h3>
+          </div>
         </CardHeader>
         <CardContent className='flex flex-col gap-6'>
-          <Calendar
-            mode='single'
-            selected={startDate.current}
-            onSelect={(date) => {
-              startDate.current = date as Date;
-              handleSetFilter('date');
-            }}
-            className='flex justify-center rounded-md border'
-            disabled={(date) => date < new Date()}
-          />
+          <div className='flex flex-col'>
+            <Label className='mb-2 ms-1'>Data</Label>
+            <Calendar
+              mode='single'
+              selected={startDate.current}
+              onSelect={(date) => {
+                startDate.current = date as Date;
+                handleSetFilter('date');
+              }}
+              className='flex justify-center rounded-md border'
+              disabled={(date) => date < new Date()}
+            />
+          </div>
 
           <div className='flex flex-col'>
             <Label className='mb-2 ms-1'>Categoria</Label>

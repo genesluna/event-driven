@@ -49,7 +49,7 @@ export default function SocialLogin() {
         navigate('/');
 
         toast({
-          description: 'Registro realizado com sucesso!',
+          description: 'Login realizado com sucesso!',
         });
       }
     } catch (error: any) {
