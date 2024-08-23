@@ -1,11 +1,12 @@
 import { cn } from '@/app/lib/utils';
-import { Watch } from 'react-loader-spinner';
+import { Oval } from 'react-loader-spinner';
 
 type Props = {
   className?: string;
+  visible?: boolean;
 };
 
-export default function LoadingSpinner({ className }: Props) {
+export default function LoadingSpinner({ className, visible = true }: Props) {
   return (
     <div
       className={cn(
@@ -13,14 +14,15 @@ export default function LoadingSpinner({ className }: Props) {
         className
       )}
     >
-      <Watch
-        visible={true}
+      <Oval
+        visible={visible}
         color='#f97316'
+        secondaryColor='transparent'
+        strokeWidth={5}
         height='80'
         width='80'
-        ariaLabel='watch-loading'
+        ariaLabel='oval-loading'
       />
-      <span className='mt-2 font-semibold text-[#f97316]'>Carregando...</span>
     </div>
   );
 }
