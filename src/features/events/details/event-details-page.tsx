@@ -3,10 +3,10 @@ import { useFireStore } from '@/app/hooks/firestore/use-firestore';
 import EventDetailsCard from './components/event-details-card';
 import LoadingSpinner from '@/components/loadind-spinner';
 import { useAppSelector } from '@/app/store/store';
+import Comments from '@/components/comments';
 import { useParams } from 'react-router-dom';
 import { actions } from '../event-slice';
 import { useEffect } from 'react';
-import EventDetailsComments from './components/event-details-comments';
 
 export default function EventDetailPage() {
   const { id } = useParams();
@@ -29,7 +29,7 @@ export default function EventDetailPage() {
     <div className='flex flex-row gap-10'>
       <section className='mb-10 flex basis-8/12 flex-col gap-4'>
         <EventDetailsCard event={event} />
-        <EventDetailsComments eventId={event.id} />
+        <Comments eventId={event.id} />
       </section>
       <aside className='sticky top-[calc(_theme(spacing.16)+_2.5rem)] h-[calc(100vh_-_theme(spacing.64))] w-full basis-4/12 flex-col'>
         <EventDetailsSideBar event={event} />

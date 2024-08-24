@@ -1,10 +1,10 @@
-import { push, ref, set } from 'firebase/database';
-import { FieldValues, useForm } from 'react-hook-form';
-import { auth, fb } from '@/app/config/firebase';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppSelector } from '@/app/store/store';
-import { useToast } from '@/app/hooks/use-toast';
+import { FieldValues, useForm } from 'react-hook-form';
 import { Textarea } from '@/components/ui/textarea';
+import { useAppSelector } from '@/app/store/store';
+import { push, ref, set } from 'firebase/database';
+import { auth, fb } from '@/app/config/firebase';
+import { useToast } from '@/app/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 
@@ -14,7 +14,7 @@ type Props = {
   setReplyForm?: (values: any) => void;
 };
 
-export default function EventDetailsCommentsForm({
+export default function CommentsForm({
   eventId,
   parentId,
   setReplyForm,
