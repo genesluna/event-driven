@@ -1,20 +1,20 @@
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { MessageCircle } from 'lucide-react';
-import EventDetailsCommentsForm from './event-details-comments-form';
-import { useEffect, useState } from 'react';
-import { ChatComment } from '@/app/types/event';
-import { onChildAdded, ref } from 'firebase/database';
-import { fb } from '@/app/config/firebase';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { getInitials } from '@/app/lib/utils';
-import { formatDistance } from 'date-fns';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { onChildAdded, ref } from 'firebase/database';
 import { Button } from '@/components/ui/button';
+import { ChatComment } from '@/app/types/event';
+import { getInitials } from '@/app/lib/utils';
+import { MessageCircle } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import CommentsForm from './comments-form';
+import { fb } from '@/app/config/firebase';
+import { formatDistance } from 'date-fns';
 
 type Props = {
   eventId: string;
 };
 
-export default function EventDetailsComments({ eventId }: Props) {
+export default function Comments({ eventId }: Props) {
   const [comments, setComments] = useState<ChatComment[]>([]);
   const [replyForm, setReplyForm] = useState<any>({
     open: false,
@@ -51,7 +51,7 @@ export default function EventDetailsComments({ eventId }: Props) {
         </div>
       </CardHeader>
       <CardContent className='flex flex-col gap-8'>
-        <EventDetailsCommentsForm eventId={eventId} />
+        <CommentsForm eventId={eventId} />
         <section className='flex max-h-[50vh] flex-col gap-4 overflow-y-auto'>
           {createCommentTree(comments)
             .reverse()
@@ -89,7 +89,7 @@ export default function EventDetailsComments({ eventId }: Props) {
                     Responder
                   </Button>
                   {replyForm.open && replyForm.commentId === comment.id && (
-                    <EventDetailsCommentsForm
+                    <CommentsForm
                       key={comment.id}
                       eventId={eventId}
                       parentId={comment.id}
@@ -132,7 +132,7 @@ export default function EventDetailsComments({ eventId }: Props) {
                           Responder
                         </Button>
                         {replyForm.open && replyForm.commentId === child.id && (
-                          <EventDetailsCommentsForm
+                          <CommentsForm
                             key={comment.id}
                             eventId={eventId}
                             parentId={child.parentId}
