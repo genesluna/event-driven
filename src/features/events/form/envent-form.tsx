@@ -185,12 +185,13 @@ export default function EventForm() {
   if (status === 'loading') return <LoadingSpinner />;
 
   return (
-    <div className='flex flex-col items-center justify-center'>
+    <section className='flex flex-col items-center justify-center'>
       <Form {...form}>
         <form
           className='grid w-full max-w-sm gap-4 rounded-lg bg-card p-8 sm:max-w-md lg:max-w-lg xl:max-w-xl'
           onSubmit={form.handleSubmit(onSubmit)}
         >
+          <h1 className='mb-4 text-2xl font-semibold'>Detalhes do evento</h1>
           <input type='hidden' {...form.register('latLng')} />
           <div className='grid gap-2'>
             <Input
@@ -407,6 +408,6 @@ export default function EventForm() {
           </div>
         </form>
       </Form>
-    </div>
+    </section>
   );
 }
