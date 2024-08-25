@@ -19,7 +19,7 @@ export default function EventsList({
     <>
       {events.length !== 0 && (
         <InfiniteScroll
-          className='mb-10 flex flex-col gap-10'
+          className='mb-10 flex flex-col gap-4 md:gap-10'
           pageStart={0}
           loadMore={loadMore}
           hasMore={!loading && hasMore}

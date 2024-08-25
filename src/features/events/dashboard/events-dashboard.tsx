@@ -47,7 +47,7 @@ export default function EventsDashboard() {
   }
   return (
     <div className='flex flex-row gap-10'>
-      <section className='flex basis-9/12'>
+      <section className='flex lg:basis-9/12'>
         {!loadedInitial ? (
           <LoadingSpinner />
         ) : (
@@ -59,7 +59,7 @@ export default function EventsDashboard() {
           />
         )}
       </section>
-      <aside className='sticky top-[calc(_theme(spacing.16)+_2.5rem)] h-[calc(100vh_-_theme(spacing.64))] w-full basis-3/12 flex-col'>
+      <aside className='sticky top-[calc(_theme(spacing.16)+_2.5rem)] hidden h-[calc(100vh_-_theme(spacing.64))] w-full basis-0 flex-col lg:flex lg:basis-3/12'>
         <EventFilters setQuery={setQuery} />
       </aside>
     </div>
