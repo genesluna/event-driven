@@ -1,4 +1,11 @@
-import { Loader2, Pencil, Map } from 'lucide-react';
+import {
+  Loader2,
+  Pencil,
+  Map,
+  CalendarDays,
+  MapPin,
+  Building,
+} from 'lucide-react';
 import {
   Card,
   CardContent,
@@ -134,7 +141,7 @@ export default function EventDetailsCard({ event }: EventCardProps) {
               <Button
                 variant={'outline'}
                 size='icon'
-                className='absolute right-4 top-4 z-10 rounded-full'
+                className='absolute right-2 top-2 z-10 rounded-full sm:right-4 sm:top-4'
                 onClick={() => handleImageUpdateButtonClick()}
               >
                 <Pencil className='h-4 w-4' />
@@ -152,21 +159,31 @@ export default function EventDetailsCard({ event }: EventCardProps) {
                 event.coverImgURL || `/category-images/${event.category}.webp`
               }
               alt='event main image'
-              className='h-full w-full rounded-2xl object-cover brightness-[30%]'
+              className='h-full w-full rounded-2xl object-cover'
             />
-            <div className='absolute bottom-4 left-4 flex flex-col gap-2 text-white'>
-              <h3 className='text-2xl font-semibold'>{event.title}</h3>
-              <div className=''>
-                <span>{format(new Date(event.date), 'PPPPp')}</span>
-              </div>
-              <div className=''>
-                <span>{extractPlaceName(event.venue)}</span>
-              </div>
-            </div>
           </div>
         </CardHeader>
         <CardContent>
-          <p className='text-muted-foreground'>{event.description}</p>
+          <h3 className='text-xl font-semibold sm:text-2xl'>{event.title}</h3>
+          <p className='mt-4 text-muted-foreground'>{event.description}</p>
+          <div className='mt-4 flex flex-col items-start gap-2'>
+            <div className='flex items-center gap-2'>
+              <CalendarDays className='h-4 w-4 shrink-0 text-primary' />
+              <span className='text-muted-foreground'>
+                {format(new Date(event.date), 'PPPPp')}
+              </span>
+            </div>
+            <div className='flex items-center gap-2'>
+              <MapPin className='h-4 w-4 shrink-0 text-primary' />
+              <span className='text-muted-foreground'>{event.city}</span>
+            </div>
+            <div className='flex items-center gap-2'>
+              <Building className='h-4 w-4 shrink-0 text-primary' />
+              <span className='text-muted-foreground'>
+                {extractPlaceName(event.venue)}{' '}
+              </span>
+            </div>
+          </div>
 
           {event.latLng && (
             <Accordion type='single' collapsible className='mt-2 w-full'>
