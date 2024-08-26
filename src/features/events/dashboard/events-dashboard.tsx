@@ -51,8 +51,6 @@ export default function EventsDashboard() {
   return (
     <div className='flex flex-row gap-10'>
       <section className='flex lg:basis-9/12'>
-        <LoadingSpinner />
-
         <EventsList
           events={events}
           loadMore={loadMore}
