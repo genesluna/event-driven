@@ -45,19 +45,20 @@ export default function EventsDashboard() {
   function loadMore() {
     loadEvents();
   }
+
+  if (!loadedInitial) return <LoadingSpinner />;
+
   return (
     <div className='flex flex-row gap-10'>
       <section className='flex lg:basis-9/12'>
-        {!loadedInitial ? (
-          <LoadingSpinner />
-        ) : (
-          <EventsList
-            events={events}
-            loadMore={loadMore}
-            hasMore={hasMore.current}
-            loading={status === 'loading'}
-          />
-        )}
+        <LoadingSpinner />
+
+        <EventsList
+          events={events}
+          loadMore={loadMore}
+          hasMore={hasMore.current}
+          loading={status === 'loading'}
+        />
       </section>
       <aside className='sticky top-[calc(_theme(spacing.16)+_2.5rem)] hidden h-[calc(100vh_-_theme(spacing.64))] w-full basis-0 flex-col lg:flex lg:basis-3/12'>
         <EventFilters setQuery={setQuery} />
