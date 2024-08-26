@@ -11,7 +11,7 @@ import { AppEvent } from '@/app/types/event';
 import { format } from 'date-fns';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useFireStore } from '@/app/hooks/firestore/use-firestore';
-import { useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import { arrayRemove, arrayUnion } from 'firebase/firestore';
 import {
   Accordion,
@@ -21,18 +21,26 @@ import {
 } from '@/components/ui/accordion';
 import EventDetailedMap from './event-details-map';
 import { extractPlaceName } from '@/app/lib/utils';
+import ImageModal from '@/components/image-modal';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { auth, storage } from '@/app/config/firebase';
+import { useToast } from '@/app/hooks/use-toast';
 
 type EventCardProps = {
   event: AppEvent;
 };
 
 export default function EventDetailsCard({ event }: EventCardProps) {
+  const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const inputFile = useRef<HTMLInputElement | null>(null);
+  const imageFile = useRef<File | null>(null);
   const { authenticated } = useAppSelector((state) => state.auth);
   const { currentUser } = useAppSelector((state) => state.auth);
   const { update } = useFireStore('events');
   const navigate = useNavigate();
   const location = useLocation();
-  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
   async function toggleAttendance() {
     if (!currentUser)
@@ -43,6 +51,7 @@ export default function EventDetailsCard({ event }: EventCardProps) {
     if (!event) return;
 
     setLoading(true);
+
     if (event.isGoing) {
       const attendee = event.attendees.find((x) => x.id === currentUser.uid);
       await update(event.id, {
@@ -63,8 +72,61 @@ export default function EventDetailsCard({ event }: EventCardProps) {
     }
   }
 
+  async function updateCoverImage(imgBlob: Blob) {
+    const storageRef = ref(
+      storage,
+      `${auth.currentUser?.uid}/event_images/${event.id}/coverImg.webp`
+    );
+
+    try {
+      toast({
+        description: 'Alterando imagem de capa.',
+      });
+
+      await uploadBytes(storageRef, imgBlob);
+      await getDownloadURL(storageRef).then(async (url) => {
+        await update(event.id, {
+          coverImgURL: url,
+        });
+      });
+      toast({
+        description: 'Imagem de capa alterada com sucesso.',
+      });
+    } catch (error: any) {
+      toast({
+        title: 'Algo não saiu como esperado',
+        variant: 'destructive',
+        description: error.message,
+      });
+    }
+  }
+
+  function handleImageUpdateButtonClick(): void {
+    inputFile.current?.click();
+  }
+
+  function handleFileSelect(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      imageFile.current = file;
+      setModalOpen(true);
+    }
+  }
+
+  function handleCloseModal(): void {
+    setModalOpen(false);
+    imageFile.current = null;
+  }
+
   return (
     <section>
+      {modalOpen && imageFile.current && (
+        <ImageModal
+          file={imageFile.current}
+          updateCoverImage={updateCoverImage}
+          closeModal={handleCloseModal}
+        />
+      )}
       <Card className='h-fit' key={event.id}>
         <CardHeader className='relative'>
           <div className='relative'>
@@ -73,12 +135,22 @@ export default function EventDetailsCard({ event }: EventCardProps) {
                 variant={'outline'}
                 size='icon'
                 className='absolute right-4 top-4 z-10 rounded-full'
+                onClick={() => handleImageUpdateButtonClick()}
               >
                 <Pencil className='h-4 w-4' />
+                <input
+                  ref={inputFile}
+                  type='file'
+                  accept='image/png, image/webp, image/jpeg,'
+                  className='display-none hidden'
+                  onChange={handleFileSelect}
+                />
               </Button>
             )}
             <img
-              src={`/category-images/${event.category}.webp`}
+              src={
+                event.coverImgURL || `/category-images/${event.category}.webp`
+              }
               alt='event main image'
               className='h-full w-full rounded-2xl object-cover brightness-[30%]'
             />
