@@ -9,6 +9,7 @@ export type AppEvent = {
   description: string;
   city: string;
   venue: string;
+  coverImgURL?: string;
   hostUid: string;
   hostedBy: string;
   hostPhotoURL: string;
