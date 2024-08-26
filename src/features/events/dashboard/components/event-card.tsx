@@ -23,9 +23,10 @@ export default function EventCard({ event }: EventCardProps) {
     <Card>
       <CardHeader>
         <img
-          src={`/category-images/${event.category}.webp`}
+          src={event.coverImgURL || `/category-images/${event.category}.webp`}
           alt='event main image'
           className='h-full w-full rounded-2xl object-cover'
+          loading='eager'
         />
       </CardHeader>
       <CardContent>
