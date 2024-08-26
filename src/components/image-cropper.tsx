@@ -7,7 +7,6 @@ type Props = {
   imgSrc: string;
   minWidth: number;
   minHeight: number;
-
   aspectRatio: number;
   updateCoverImage: (imgBlob: Blob) => Promise<void>;
   closeModal: () => void;
@@ -25,11 +24,18 @@ export default function ImageCropper({
 
   function handleCropSelection() {
     const cropper = cropperRef.current?.cropper;
-    cropper?.getCroppedCanvas().toBlob((blob) => {
-      if (!blob) return;
+    cropper
+      ?.getCroppedCanvas({
+        width: minWidth,
+        height: minHeight,
+        imageSmoothingEnabled: false,
+        imageSmoothingQuality: 'high',
+      })
+      .toBlob((blob) => {
+        if (!blob) return;
 
-      updateCoverImage(blob);
-    }, 'image/webp');
+        updateCoverImage(blob);
+      }, 'image/webp');
 
     closeModal();
   }
@@ -42,13 +48,13 @@ export default function ImageCropper({
         initialAspectRatio={aspectRatio}
         aspectRatio={aspectRatio}
         autoCropArea={aspectRatio}
-        minCropBoxHeight={minHeight}
         minCropBoxWidth={minWidth}
-        background={false}
-        responsive={true}
         cropBoxResizable={false}
-        viewMode={1}
+        background={false}
+        zoomable={false}
+        responsive={true}
         guides={false}
+        viewMode={1}
         ref={cropperRef}
       />
       <Button variant={'secondary'} onClick={() => handleCropSelection()}>
