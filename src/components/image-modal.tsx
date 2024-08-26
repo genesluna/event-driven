@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useToast } from '@/app/hooks/use-toast';
 import LoadingSpinner from './loadind-spinner';
 import ImageCropper from './image-cropper';
-import 'react-image-crop/dist/ReactCrop.css';
 
 type Props = {
   file: File;
