@@ -28,7 +28,7 @@ import {
 } from '@/components/ui/accordion';
 import EventDetailedMap from './event-details-map';
 import { extractPlaceName } from '@/app/lib/utils';
-import ImageModal from '@/components/image-modal';
+import ImageCropperModal from '@/components/image-cropper-modal';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { auth, storage } from '@/app/config/firebase';
 import { useToast } from '@/app/hooks/use-toast';
@@ -128,9 +128,12 @@ export default function EventDetailsCard({ event }: EventCardProps) {
   return (
     <section>
       {modalOpen && imageFile.current && (
-        <ImageModal
+        <ImageCropperModal
           file={imageFile.current}
-          updateCoverImage={updateCoverImage}
+          minWidth={970}
+          minHeight={459}
+          aspectRatio={970 / 459}
+          updateImage={updateCoverImage}
           closeModal={handleCloseModal}
         />
       )}

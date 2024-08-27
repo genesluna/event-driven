@@ -7,18 +7,24 @@ import ImageCropper from './image-cropper';
 
 type Props = {
   file: File;
-  updateCoverImage: (imgBlob: Blob) => Promise<void>;
+  minWidth: number;
+  minHeight: number;
+  aspectRatio: number;
+  updateImage: (imgBlob: Blob) => Promise<void>;
   closeModal: () => void;
 };
 
-const ImageModal = ({ updateCoverImage, closeModal, file }: Props) => {
+const ImageCropperModal = ({
+  updateImage,
+  closeModal,
+  file,
+  minWidth,
+  minHeight,
+  aspectRatio,
+}: Props) => {
   const [imgSrc, setImgSrc] = useState<string>('');
   const [isValid, setIsvalid] = useState<boolean>(false);
   const { toast } = useToast();
-
-  const ASPECT_RATIO = 970 / 459;
-  const MIN_WIDTH = 970;
-  const MIN_HEIGHT = 459;
 
   const reader = new FileReader();
   reader.addEventListener('load', () => {
@@ -32,12 +38,12 @@ const ImageModal = ({ updateCoverImage, closeModal, file }: Props) => {
       const { naturalWidth, naturalHeight } =
         e.currentTarget as HTMLImageElement;
 
-      if (naturalWidth < MIN_WIDTH || naturalHeight < MIN_HEIGHT) {
+      if (naturalWidth < minWidth || naturalHeight < minHeight) {
         setIsvalid(false);
         toast({
           title: 'Algo não saiu como esperado',
           variant: 'destructive',
-          description: `A imagem deve ter pelo menos ${MIN_WIDTH} x ${MIN_HEIGHT} pixels.`,
+          description: `A imagem deve ter pelo menos ${minWidth} x ${minHeight} pixels.`,
         });
         setImgSrc('');
 
@@ -77,10 +83,10 @@ const ImageModal = ({ updateCoverImage, closeModal, file }: Props) => {
                 <LoadingSpinner />
               ) : (
                 <ImageCropper
-                  aspectRatio={ASPECT_RATIO}
-                  minWidth={MIN_WIDTH}
-                  minHeight={MIN_HEIGHT}
-                  updateCoverImage={updateCoverImage}
+                  aspectRatio={aspectRatio}
+                  minWidth={minWidth}
+                  minHeight={minHeight}
+                  updateImage={updateImage}
                   closeModal={closeModal}
                   imgSrc={imgSrc}
                 />
@@ -92,4 +98,4 @@ const ImageModal = ({ updateCoverImage, closeModal, file }: Props) => {
     </div>
   );
 };
-export default ImageModal;
+export default ImageCropperModal;
