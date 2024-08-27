@@ -8,12 +8,12 @@ type Props = {
   minWidth: number;
   minHeight: number;
   aspectRatio: number;
-  updateCoverImage: (imgBlob: Blob) => Promise<void>;
+  updateImage: (imgBlob: Blob) => Promise<void>;
   closeModal: () => void;
 };
 
 export default function ImageCropper({
-  updateCoverImage,
+  updateImage,
   closeModal,
   imgSrc,
   minWidth,
@@ -34,7 +34,7 @@ export default function ImageCropper({
       .toBlob((blob) => {
         if (!blob) return;
 
-        updateCoverImage(blob);
+        updateImage(blob);
       }, 'image/webp');
 
     closeModal();
