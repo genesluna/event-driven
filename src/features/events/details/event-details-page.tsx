@@ -29,7 +29,7 @@ export default function EventDetailPage() {
     <div className='flex flex-row gap-10'>
       <section className='mb-10 flex flex-col gap-4 lg:basis-8/12'>
         <EventDetailsCard event={event} />
-        <Comments eventId={event.id} />
+        <Comments event={event} />
       </section>
       <aside className='sticky top-[calc(_theme(spacing.16)+_2.5rem)] hidden h-[calc(100vh_-_theme(spacing.64))] w-full basis-0 flex-col lg:flex lg:basis-4/12'>
         <EventDetailsSideBar event={event} />

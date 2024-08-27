@@ -27,7 +27,7 @@ export type Attendee = {
   photoURL: string;
 };
 
-export type ChatComment = {
+export type Comment = {
   id: string;
   displayName: string;
   photoURL: string;
@@ -35,5 +35,5 @@ export type ChatComment = {
   text: string;
   date: number;
   parentId: string | null;
-  childNodes: ChatComment[];
+  childNodes: Comment[];
 };
