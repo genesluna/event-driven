@@ -69,7 +69,7 @@ export default function CommentsForm({
         {isSubmitting ? (
           <Loader2 className='mr-2 h-4 w-4 animate-spin' />
         ) : null}
-        Enviar
+        Comentar
       </Button>
     </form>
   );
