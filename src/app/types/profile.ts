@@ -2,8 +2,9 @@ export type Profile = {
   id: string;
   photoURL: string | null;
   displayName: string | null;
+  email: string | null;
   createdAt: string;
-  description: string;
+  bio?: string;
   followerCount?: number;
   followingCount?: number;
   isFollowing: boolean;
