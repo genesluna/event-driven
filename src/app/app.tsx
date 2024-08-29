@@ -1,7 +1,7 @@
-import MapsWrapper from '@/features/events/components/maps-wrapper';
 import { Outlet, ScrollRestoration } from 'react-router-dom';
 import { ThemeProvider } from '@/components/theme-provider';
 import { logout, signIn } from '@/features/auth/auth-slice';
+import MapsWrapper from '@/components/maps-wrapper';
 import { onAuthStateChanged } from 'firebase/auth';
 import MainLayout from './layouts/main-layout';
 import { useAppDispatch } from './store/store';
