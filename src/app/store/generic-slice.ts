@@ -56,7 +56,7 @@ export type GenericActions<T> = {
   loading: ActionCreatorWithoutPayload<string>;
   success:
     | ActionCreatorWithPayload<T, string>
-    | ActionCreatorWithPreparedPayload<any[], T, string, never, never>;
+    | ActionCreatorWithPreparedPayload<any, T, string, never, never>;
   error: ActionCreatorWithOptionalPayload<any, string>;
   reset: ActionCreatorWithOptionalPayload<any>;
 };
