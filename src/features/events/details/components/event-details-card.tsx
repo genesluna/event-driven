@@ -31,8 +31,9 @@ import { extractPlaceName } from '@/app/lib/utils';
 import { useToast } from '@/app/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { AppEvent } from '@/app/types/event';
-import { format } from 'date-fns';
 import Ribbon from '@/components/ui/ribbon';
+import Image from '@/components/ui/image';
+import { format } from 'date-fns';
 
 type EventCardProps = {
   event: AppEvent;
@@ -159,12 +160,12 @@ export default function EventDetailsCard({ event }: EventCardProps) {
                 />
               </Button>
             )}
-            <img
+            <Image
               src={
                 event.coverImgURL || `/category-images/${event.category}.webp`
               }
               alt='event main image'
-              className='h-full w-full rounded-2xl object-cover'
+              className='rounded-2xl'
             />
           </div>
         </CardHeader>
