@@ -1,4 +1,5 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import { profileSlice } from '@/features/profiles/profile-slice';
 import { eventSlice } from '@/features/events/event-slice';
 import { authSlice } from '@/features/auth/auth-slice';
 import { configureStore } from '@reduxjs/toolkit';
@@ -7,6 +8,7 @@ export const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
     events: eventSlice.reducer,
+    profiles: profileSlice.reducer,
   },
 });
 
