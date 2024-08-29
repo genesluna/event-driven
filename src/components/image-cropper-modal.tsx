@@ -66,8 +66,8 @@ const ImageCropperModal = ({
       aria-modal='true'
     >
       <div className='fixed inset-0 bg-gray-900 bg-opacity-20 backdrop-blur-sm transition-all'></div>
-      <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
-        <div className='flex min-h-full justify-center px-2 py-12 text-center'>
+      <div className='fixed inset-0 z-10'>
+        <div className='flex justify-center px-2 py-12 text-center'>
           <div className='relative h-fit w-[95%] rounded-2xl border bg-background text-left text-foreground shadow-xl transition-all sm:max-w-4xl'>
             <div className='flex flex-col p-5'>
               <button

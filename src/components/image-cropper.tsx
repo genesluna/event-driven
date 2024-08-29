@@ -43,12 +43,14 @@ export default function ImageCropper({
   return (
     <div className='flex flex-col gap-4'>
       <Cropper
-        className='max-h-[70vh] w-full object-cover'
+        className='object-cover'
         src={imgSrc}
         initialAspectRatio={aspectRatio}
         aspectRatio={aspectRatio}
         autoCropArea={aspectRatio}
         minCropBoxWidth={minWidth}
+        width={minWidth}
+        height={minHeight}
         cropBoxResizable={false}
         background={false}
         zoomable={false}
