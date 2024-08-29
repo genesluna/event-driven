@@ -103,6 +103,7 @@
   position: relative;
   top: -10px;
   left: -10px;
+  margin-bottom: -150px;
   width: 150px;
   height: 150px;
   display: flex;
@@ -112,7 +113,7 @@
 }
 
 .ribbon::before {
-  content: "Cancelado";
+  content: "";
   position: absolute;
   width: 150%;
   height: 40px;
