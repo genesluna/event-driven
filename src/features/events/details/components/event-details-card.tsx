@@ -27,7 +27,7 @@ import { ChangeEvent, useRef, useState } from 'react';
 import { auth, storage } from '@/app/config/firebase';
 import { useAppSelector } from '@/app/store/store';
 import EventDetailedMap from './event-details-map';
-import { extractPlaceName } from '@/app/lib/utils';
+import { cn, extractPlaceName } from '@/app/lib/utils';
 import { useToast } from '@/app/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { AppEvent } from '@/app/types/event';
@@ -137,95 +137,98 @@ export default function EventDetailsCard({ event }: EventCardProps) {
         />
       )}
       <Card className='h-fit' key={event.id}>
-        <CardHeader className='relative'>
-          <div className='relative'>
-            {event.hostUid === currentUser?.uid && (
+        {event.isCancelled && <span className='ribbon'></span>}
+        <div className={cn({ '-mt-[150px]': event.isCancelled })}>
+          <CardHeader className='relative'>
+            <div className='relative'>
+              {event.hostUid === currentUser?.uid && (
+                <Button
+                  variant={'outline'}
+                  size='icon'
+                  className='absolute right-2 top-2 z-10 rounded-full sm:right-4 sm:top-4'
+                  onClick={() => handleImageUpdateButtonClick()}
+                >
+                  <Pencil className='h-4 w-4' />
+                  <input
+                    ref={inputFile}
+                    type='file'
+                    accept='image/png, image/webp, image/jpeg,'
+                    className='display-none hidden'
+                    onChange={handleFileSelect}
+                  />
+                </Button>
+              )}
+              <img
+                src={
+                  event.coverImgURL || `/category-images/${event.category}.webp`
+                }
+                alt='event main image'
+                className='h-full w-full rounded-2xl object-cover'
+              />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <h3 className='text-xl font-semibold sm:text-2xl'>{event.title}</h3>
+            <p className='mt-4 text-muted-foreground'>{event.description}</p>
+            <div className='mt-4 flex flex-col items-start gap-2'>
+              <div className='flex items-center gap-2'>
+                <CalendarDays className='h-4 w-4 shrink-0 text-primary' />
+                <span className='text-muted-foreground'>
+                  {format(new Date(event.date), 'PPPPp')}
+                </span>
+              </div>
+              <div className='flex items-center gap-2'>
+                <MapPin className='h-4 w-4 shrink-0 text-primary' />
+                <span className='text-muted-foreground'>{event.city}</span>
+              </div>
+              <div className='flex items-center gap-2'>
+                <Building className='h-4 w-4 shrink-0 text-primary' />
+                <span className='text-muted-foreground'>
+                  {extractPlaceName(event.venue)}{' '}
+                </span>
+              </div>
+            </div>
+
+            {event.latLng && (
+              <Accordion type='single' collapsible className='mt-2 w-full'>
+                <AccordionItem value='item-1'>
+                  <AccordionTrigger>
+                    <div className='flex items-center gap-2'>
+                      <Map className='h-4 w-4 shrink-0 text-primary' />
+                      Ver o mapa
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <EventDetailedMap latLng={event.latLng} />
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            )}
+          </CardContent>
+          <CardFooter className='flex gap-4'>
+            {event.hostUid === currentUser?.uid ? (
               <Button
-                variant={'outline'}
-                size='icon'
-                className='absolute right-2 top-2 z-10 rounded-full sm:right-4 sm:top-4'
-                onClick={() => handleImageUpdateButtonClick()}
+                variant='secondary'
+                onClick={() => {
+                  navigate(`/events/manage/${event.id}`);
+                }}
               >
-                <Pencil className='h-4 w-4' />
-                <input
-                  ref={inputFile}
-                  type='file'
-                  accept='image/png, image/webp, image/jpeg,'
-                  className='display-none hidden'
-                  onChange={handleFileSelect}
-                />
+                Editar evento
+              </Button>
+            ) : (
+              <Button
+                className='min-w-44'
+                variant='secondary'
+                onClick={toggleAttendance}
+              >
+                {loading ? (
+                  <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                ) : null}
+                {event.isGoing ? 'Cancelar participação' : 'Participar'}
               </Button>
             )}
-            <img
-              src={
-                event.coverImgURL || `/category-images/${event.category}.webp`
-              }
-              alt='event main image'
-              className='h-full w-full rounded-2xl object-cover'
-            />
-          </div>
-        </CardHeader>
-        <CardContent>
-          <h3 className='text-xl font-semibold sm:text-2xl'>{event.title}</h3>
-          <p className='mt-4 text-muted-foreground'>{event.description}</p>
-          <div className='mt-4 flex flex-col items-start gap-2'>
-            <div className='flex items-center gap-2'>
-              <CalendarDays className='h-4 w-4 shrink-0 text-primary' />
-              <span className='text-muted-foreground'>
-                {format(new Date(event.date), 'PPPPp')}
-              </span>
-            </div>
-            <div className='flex items-center gap-2'>
-              <MapPin className='h-4 w-4 shrink-0 text-primary' />
-              <span className='text-muted-foreground'>{event.city}</span>
-            </div>
-            <div className='flex items-center gap-2'>
-              <Building className='h-4 w-4 shrink-0 text-primary' />
-              <span className='text-muted-foreground'>
-                {extractPlaceName(event.venue)}{' '}
-              </span>
-            </div>
-          </div>
-
-          {event.latLng && (
-            <Accordion type='single' collapsible className='mt-2 w-full'>
-              <AccordionItem value='item-1'>
-                <AccordionTrigger>
-                  <div className='flex items-center gap-2'>
-                    <Map className='h-4 w-4 shrink-0 text-primary' />
-                    Ver o mapa
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <EventDetailedMap latLng={event.latLng} />
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          )}
-        </CardContent>
-        <CardFooter className='flex gap-4'>
-          {event.hostUid === currentUser?.uid ? (
-            <Button
-              variant='secondary'
-              onClick={() => {
-                navigate(`/events/manage/${event.id}`);
-              }}
-            >
-              Editar evento
-            </Button>
-          ) : (
-            <Button
-              className='min-w-44'
-              variant='secondary'
-              onClick={toggleAttendance}
-            >
-              {loading ? (
-                <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-              ) : null}
-              {event.isGoing ? 'Cancelar participação' : 'Participar'}
-            </Button>
-          )}
-        </CardFooter>
+          </CardFooter>
+        </div>
       </Card>
     </section>
   );

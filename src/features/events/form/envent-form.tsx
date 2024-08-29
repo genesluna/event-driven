@@ -143,6 +143,7 @@ export default function EventForm() {
     toast({
       description: `O evento foi ${event.isCancelled ? 'reativado' : 'cancelado'}`,
     });
+    navigate(`/events/${event.id}`);
   }
 
   async function onSubmit(data: EventData) {
