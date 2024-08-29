@@ -1,4 +1,10 @@
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import {
   Loader2,
   Pencil,
   Map,
@@ -12,26 +18,20 @@ import {
   CardFooter,
   CardHeader,
 } from '@/components/ui/card';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { useFireStore } from '@/app/hooks/firestore/use-firestore';
+import ImageCropperModal from '@/components/image-cropper-modal';
+import { arrayRemove, arrayUnion } from 'firebase/firestore';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { ChangeEvent, useRef, useState } from 'react';
+import { auth, storage } from '@/app/config/firebase';
 import { useAppSelector } from '@/app/store/store';
+import EventDetailedMap from './event-details-map';
+import { extractPlaceName } from '@/app/lib/utils';
+import { useToast } from '@/app/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { AppEvent } from '@/app/types/event';
 import { format } from 'date-fns';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useFireStore } from '@/app/hooks/firestore/use-firestore';
-import { ChangeEvent, useRef, useState } from 'react';
-import { arrayRemove, arrayUnion } from 'firebase/firestore';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
-import EventDetailedMap from './event-details-map';
-import { extractPlaceName } from '@/app/lib/utils';
-import ImageCropperModal from '@/components/image-cropper-modal';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { auth, storage } from '@/app/config/firebase';
-import { useToast } from '@/app/hooks/use-toast';
 
 type EventCardProps = {
   event: AppEvent;
@@ -42,7 +42,6 @@ export default function EventDetailsCard({ event }: EventCardProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const inputFile = useRef<HTMLInputElement | null>(null);
   const imageFile = useRef<File | null>(null);
-  const { authenticated } = useAppSelector((state) => state.auth);
   const { currentUser } = useAppSelector((state) => state.auth);
   const { update } = useFireStore('events');
   const navigate = useNavigate();
@@ -216,7 +215,6 @@ export default function EventDetailsCard({ event }: EventCardProps) {
             </Button>
           ) : (
             <Button
-              disabled={!authenticated}
               className='min-w-44'
               variant='secondary'
               onClick={toggleAttendance}

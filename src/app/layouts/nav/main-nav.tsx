@@ -94,7 +94,11 @@ export default function MainNav() {
               <DropdownMenuContent align='end'>
                 <DropdownMenuLabel>{currentUser.displayName}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Perfil</DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => navigate(`/profile/${currentUser.uid}`)}
+                >
+                  Perfil
+                </DropdownMenuItem>
                 <DropdownMenuItem>Ajustes</DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleSignOut}>
