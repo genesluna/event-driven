@@ -5,9 +5,8 @@ import {
   CardFooter,
   CardHeader,
 } from '@/components/ui/card';
-
 import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { AppEvent } from '@/app/types/event';
 import { format } from 'date-fns';
 import { extractPlaceName } from '@/app/lib/utils';
@@ -35,7 +34,12 @@ export default function EventCard({ event }: EventCardProps) {
         <div className='mt-4 flex flex-col items-start gap-2'>
           <div className='flex items-center gap-2'>
             <ContactRound className='h-4 w-4 shrink-0 text-primary' />
-            <span className='text-muted-foreground'>{event.hostedBy}</span>
+            <NavLink
+              to={`/profile/${event.hostUid}`}
+              className='text-muted-foreground'
+            >
+              {event.hostedBy}
+            </NavLink>
           </div>
           <div className='flex items-center gap-2'>
             <CalendarDays className='h-4 w-4 shrink-0 text-primary' />

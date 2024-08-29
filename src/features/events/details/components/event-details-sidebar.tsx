@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Users } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
 
 type Props = {
   event: AppEvent;
@@ -22,13 +23,17 @@ export default function EventDetailsSideBar({ event }: Props) {
         <CardContent className='flex flex-col gap-5'>
           <hr className='h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-600 to-transparent opacity-25 dark:via-neutral-300' />
           {event.attendees.map((attendee) => (
-            <div key={attendee.id} className='flex items-center gap-2'>
+            <NavLink
+              to={`/profile/${attendee.id}`}
+              key={attendee.id}
+              className='flex items-center gap-2'
+            >
               <Avatar>
                 <AvatarImage
                   src={attendee.photoURL}
                   alt={attendee.displayName || 'User'}
                 />
-                <AvatarFallback>
+                <AvatarFallback className='border'>
                   {getInitials(attendee.displayName)}
                 </AvatarFallback>
               </Avatar>
@@ -40,7 +45,7 @@ export default function EventDetailsSideBar({ event }: Props) {
                   Organizador
                 </Badge>
               )}
-            </div>
+            </NavLink>
           ))}
         </CardContent>
       </Card>
