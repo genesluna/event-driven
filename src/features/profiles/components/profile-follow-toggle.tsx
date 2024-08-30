@@ -53,7 +53,7 @@ export default function ProfileFollowToggle({ profile }: Props) {
   return (
     <Button
       size={'sm'}
-      variant={'default'}
+      variant={'secondary'}
       onClick={() => handleFollowToggle(!profile.isFollowing)}
     >
       {loading ? (
