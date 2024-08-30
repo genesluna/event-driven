@@ -2,8 +2,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import ImageCropperModal from '@/components/image-cropper-modal';
 import { batchSetPhoto } from '@/app/actions/firestore-actions';
-import { auth, storage } from '@/app/config/firebase';
+import ProfileFollowToggle from './profile-follow-toggle';
 import { ChangeEvent, useRef, useState } from 'react';
+import { auth, storage } from '@/app/config/firebase';
 import { useAppSelector } from '@/app/store/store';
 import { useToast } from '@/app/hooks/use-toast';
 import { Button } from '@/components/ui/button';
@@ -125,9 +126,7 @@ export default function ProfileInfo({ profile }: Props) {
           Editar perfil
         </Button>
       ) : (
-        <Button size={'sm'} variant={'default'}>
-          Seguir
-        </Button>
+        <ProfileFollowToggle profile={profile} />
       )}
       <div className='text-basis flex items-center text-muted-foreground'>
         <Users className='mr-2 h-3 w-3' />
