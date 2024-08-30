@@ -5,6 +5,7 @@ export type Profile = {
   email: string | null;
   createdAt: string;
   bio?: string;
+  website?: string;
   followerCount?: number;
   followingCount?: number;
   isFollowing: boolean;
