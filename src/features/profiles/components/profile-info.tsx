@@ -10,8 +10,9 @@ import { useToast } from '@/app/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { getInitials } from '@/app/lib/utils';
 import { Profile } from '@/app/types/profile';
-import { Pencil, Users } from 'lucide-react';
+import { Link2, Mail, Pencil, Users } from 'lucide-react';
 import { updateProfile } from 'firebase/auth';
+import ProfileEdit from './profile-edit';
 
 type Props = {
   profile: Profile;
@@ -19,6 +20,7 @@ type Props = {
 
 export default function ProfileInfo({ profile }: Props) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [edit, setEdit] = useState(false);
   const inputFile = useRef<HTMLInputElement | null>(null);
   const imageFile = useRef<File | null>(null);
   const { currentUser } = useAppSelector((state) => state.auth);
@@ -60,6 +62,8 @@ export default function ProfileInfo({ profile }: Props) {
   }
 
   function handleImageUpdateButtonClick(): void {
+    if (!isProfileOwner) return;
+
     inputFile.current?.click();
   }
 
@@ -77,63 +81,89 @@ export default function ProfileInfo({ profile }: Props) {
   }
 
   return (
-    <div className='flex w-fit flex-col gap-2'>
-      {modalOpen && imageFile.current && (
-        <ImageCropperModal
-          file={imageFile.current}
-          minWidth={240}
-          minHeight={240}
-          aspectRatio={1}
-          updateImage={updateAvatarImage}
-          closeModal={handleCloseModal}
-        />
-      )}
-      <div className='relative'>
-        <Avatar className='h-60 w-60'>
-          <AvatarImage
-            src={profile.photoURL || undefined}
-            alt={profile.displayName || 'User'}
+    <div className='flex flex-col gap-2'>
+      <div className='flex w-fit items-center gap-5 lg:flex-col lg:items-start lg:gap-2'>
+        {modalOpen && imageFile.current && (
+          <ImageCropperModal
+            file={imageFile.current}
+            minWidth={240}
+            minHeight={240}
+            aspectRatio={1}
+            updateImage={updateAvatarImage}
+            closeModal={handleCloseModal}
           />
-          <AvatarFallback className='border bg-background text-5xl dark:bg-secondary'>
-            {getInitials(profile.displayName!)}
-          </AvatarFallback>
-        </Avatar>
-        {isProfileOwner && (
-          <Button
-            variant={'outline'}
-            size='icon'
-            className='absolute bottom-4 right-4 z-10 rounded-full'
+        )}
+        <div className='relative'>
+          <Avatar
+            className='h-24 w-24 lg:h-60 lg:w-60'
             onClick={() => handleImageUpdateButtonClick()}
           >
-            <Pencil className='h-4 w-4' />
-            <input
-              ref={inputFile}
-              type='file'
-              accept='image/png, image/webp, image/jpeg,'
-              className='display-none hidden'
-              onChange={handleFileSelect}
+            <AvatarImage
+              src={profile.photoURL || undefined}
+              alt={profile.displayName || 'User'}
             />
-          </Button>
+            <AvatarFallback className='border bg-background text-5xl dark:bg-secondary'>
+              {getInitials(profile.displayName!)}
+            </AvatarFallback>
+          </Avatar>
+          {isProfileOwner && (
+            <>
+              <Button
+                variant={'outline'}
+                size='icon'
+                className='absolute bottom-4 right-4 z-10 hidden rounded-full lg:flex'
+                onClick={() => handleImageUpdateButtonClick()}
+              >
+                <Pencil className='h-4 w-4' />
+              </Button>
+              <input
+                ref={inputFile}
+                type='file'
+                accept='image/png, image/webp, image/jpeg,'
+                className='display-none hidden'
+                onChange={handleFileSelect}
+              />
+            </>
+          )}
+        </div>
+        {!edit && (
+          <div className='flex flex-col gap-2'>
+            <span className='mt-2 text-xl font-semibold'>
+              {profile.displayName}
+            </span>
+            <div className='text-basis -mt-2 flex items-center text-muted-foreground'>
+              <Mail className='mr-2 h-3 w-3' />
+              <span>{profile.email}</span>
+            </div>
+            {profile.website && (
+              <div className='text-basis -mt-2 flex items-center text-muted-foreground'>
+                <Link2 className='mr-2 h-3 w-3' />
+                <span>{profile.website}</span>
+              </div>
+            )}
+          </div>
         )}
       </div>
-      <span className='mt-2 text-xl font-semibold'>{profile.displayName}</span>
-      <span className='text-basis -mt-2 text-muted-foreground'>
-        {profile.email}
-      </span>
-      <span>{profile.bio}</span>
+      {profile.bio && !edit && (
+        <span className='mb-2 italic lg:max-w-[240px]'>{profile.bio}</span>
+      )}
       {isProfileOwner ? (
-        <Button size={'sm'} variant={'secondary'}>
-          Editar perfil
-        </Button>
+        <ProfileEdit
+          profile={profile}
+          onEditEnd={() => setEdit(false)}
+          onEditStart={() => setEdit(true)}
+        />
       ) : (
         <ProfileFollowToggle profile={profile} />
       )}
-      <div className='text-basis flex items-center text-muted-foreground'>
-        <Users className='mr-2 h-3 w-3' />
-        {`${profile.followerCount ? profile.followerCount : 0} seguidores - ${
-          profile.followingCount ? profile.followingCount : 0
-        } seguindo`}
-      </div>
+      {!edit && (
+        <div className='text-basis flex items-center text-muted-foreground'>
+          <Users className='mr-2 h-3 w-3' />
+          {`${profile.followerCount ? profile.followerCount : 0} seguidores - ${
+            profile.followingCount ? profile.followingCount : 0
+          } seguindo`}
+        </div>
+      )}
     </div>
   );
 }
