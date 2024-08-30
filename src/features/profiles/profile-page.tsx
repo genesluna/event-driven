@@ -29,7 +29,7 @@ export default function ProfilePage() {
   if (!profile) return <EmpityState message='Perfil não encontrado' />;
 
   return (
-    <section className='flex flex-grow justify-center gap-16'>
+    <section className='flex flex-grow flex-col justify-center gap-8 lg:flex-row lg:gap-16'>
       <ProfileInfo profile={profile} />
       <ProfileFeed profile={profile} />
     </section>
