@@ -7,4 +7,5 @@ export const categoryOptions = [
   { text: 'Moda', value: 'moda' },
   { text: 'Música', value: 'musica' },
   { text: 'Viagem', value: 'viagem' },
+  { text: 'TI', value: 'ti' },
 ];
