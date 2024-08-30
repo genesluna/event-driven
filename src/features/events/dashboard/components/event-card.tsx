@@ -12,6 +12,7 @@ import { AppEvent } from '@/app/types/event';
 import { format } from 'date-fns';
 import Ribbon from '@/components/ui/ribbon';
 import Image from '@/components/ui/image';
+import { categoryOptions } from '../../form/category-options';
 
 type EventCardProps = {
   event: AppEvent;
@@ -19,13 +20,20 @@ type EventCardProps = {
 
 export default function EventCard({ event }: EventCardProps) {
   const navigate = useNavigate();
+  const categoryUrl = categoryOptions.find(
+    (category) => category.value === event.category
+  )?.url;
+  const categoryPlaceholderUrl = categoryOptions.find(
+    (category) => category.value === event.category
+  )?.placeholderUrl;
 
   return (
     <Card className='relative'>
       {event.isCancelled && <Ribbon />}
       <CardHeader>
         <Image
-          src={event.coverImgURL || `/category-images/${event.category}.webp`}
+          placeholderSrc={categoryPlaceholderUrl}
+          src={event.coverImgURL || categoryUrl}
           alt='event main image'
           className='rounded-2xl'
         />
