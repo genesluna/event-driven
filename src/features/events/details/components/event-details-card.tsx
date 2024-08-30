@@ -21,6 +21,7 @@ import {
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useFireStore } from '@/app/hooks/firestore/use-firestore';
 import ImageCropperModal from '@/components/image-cropper-modal';
+import { categoryOptions } from '../../form/category-options';
 import { arrayRemove, arrayUnion } from 'firebase/firestore';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ChangeEvent, useRef, useState } from 'react';
@@ -49,6 +50,13 @@ export default function EventDetailsCard({ event }: EventCardProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
+
+  const categoryUrl = categoryOptions.find(
+    (category) => category.value === event.category
+  )?.url;
+  const categoryPlaceholderUrl = categoryOptions.find(
+    (category) => category.value === event.category
+  )?.placeholderUrl;
 
   async function toggleAttendance() {
     if (!currentUser)
@@ -142,6 +150,12 @@ export default function EventDetailsCard({ event }: EventCardProps) {
         {event.isCancelled && <Ribbon />}
 
         <CardHeader className='relative'>
+          <Image
+            placeholderSrc={categoryPlaceholderUrl}
+            src={event.coverImgURL || categoryUrl}
+            alt='event main image'
+            className='rounded-2xl'
+          />
           <div className='relative'>
             {event.hostUid === currentUser?.uid && (
               <Button
@@ -160,13 +174,6 @@ export default function EventDetailsCard({ event }: EventCardProps) {
                 />
               </Button>
             )}
-            <Image
-              src={
-                event.coverImgURL || `/category-images/${event.category}.webp`
-              }
-              alt='event main image'
-              className='rounded-2xl'
-            />
           </div>
         </CardHeader>
         <CardContent>
