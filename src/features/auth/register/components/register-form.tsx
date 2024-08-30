@@ -141,9 +141,7 @@ export default function RegisterForm() {
             className='mt-3 w-full'
             disabled={!isValid}
           >
-            {isSubmitting ? (
-              <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-            ) : null}
+            {isSubmitting && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
             Registrar
           </Button>
         </CardContent>
