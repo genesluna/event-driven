@@ -26,13 +26,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             type={type}
             ref={ref}
             className={cn(
-              'h-10 w-full rounded-md border border-input bg-background pl-10 text-sm text-muted-foreground transition file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
-              className,
+              'h-10 w-full rounded-md border border-input bg-background pl-4 text-sm text-muted-foreground transition file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
               {
                 'border-red-500 dark:border-red-400': errorMessage,
                 'hover:border-primary focus:border-primary dark:hover:border-primary':
                   !errorMessage,
-              }
+              },
+              icon && 'pl-10',
+              className
             )}
             {...props}
           />
