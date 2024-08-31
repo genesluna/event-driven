@@ -16,7 +16,6 @@ export default function ProfileFeed({ profile }: Props) {
   const startDate = useRef(new Date());
   const [query, setQuery] = useState<QueryOptions[]>([
     { attribute: 'hostUid', operator: '==', value: profile.id },
-    { attribute: 'date', operator: '>=', value: startDate.current },
   ]);
 
   const isProfileOwner = currentUser?.uid === profile.id;
