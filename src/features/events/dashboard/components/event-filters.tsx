@@ -112,7 +112,9 @@ export default function EventFilters({ setQuery }: Props) {
             label='Cidade'
             placeholder='Digite o nome da cidade'
             emptyMessage='Nenhuma cidade encontrada'
-            onSelectedValueChange={(value) => handleSetFilter('city', value)}
+            onSelectedValueChange={(value) => {
+              if (value !== filters.city) handleSetFilter('city', value);
+            }}
             icon={<MapPin className='h-4 w-4 text-muted-foreground' />}
             requestOptions={{
               types: ['(cities)'],
