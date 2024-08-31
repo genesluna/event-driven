@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 import EventFilters from './components/event-filters';
 import EventsList from './components/events-list';
 import { actions } from '../event-slice';
+import EmptyState from '@/components/empty-state';
 
 export default function EventsDashboard() {
   const dispatch = useAppDispatch();
@@ -52,12 +53,18 @@ export default function EventsDashboard() {
         {!loadedInitial ? (
           <LoadingSpinner />
         ) : (
-          <EventsList
-            events={events}
-            loadMore={loadMore}
-            hasMore={hasMore.current}
-            loading={status === 'loading'}
-          />
+          <>
+            {events.length === 0 ? (
+              <EmptyState className='mt-10' />
+            ) : (
+              <EventsList
+                events={events}
+                loadMore={loadMore}
+                hasMore={hasMore.current}
+                loading={status === 'loading'}
+              />
+            )}
+          </>
         )}
       </section>
       <aside className='sticky top-[calc(_theme(spacing.16)+_2.5rem)] hidden h-[calc(100vh_-_theme(spacing.64))] w-full basis-0 flex-col lg:flex lg:basis-3/12'>
