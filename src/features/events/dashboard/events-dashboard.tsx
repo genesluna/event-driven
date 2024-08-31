@@ -48,7 +48,7 @@ export default function EventsDashboard() {
   }
 
   return (
-    <div className='flex flex-row gap-10'>
+    <div className='flex h-full w-full flex-row justify-center gap-10'>
       <section className='flex lg:basis-9/12'>
         {!loadedInitial ? (
           <LoadingSpinner />
