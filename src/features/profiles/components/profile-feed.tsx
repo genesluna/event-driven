@@ -56,7 +56,6 @@ export default function ProfileFeed({ profile }: Props) {
             operator: '==',
             value: profile.id,
           },
-          { attribute: 'date', operator: '>=', value: startDate.current },
         ];
         break;
       default:
