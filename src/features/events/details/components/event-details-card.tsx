@@ -148,15 +148,14 @@ export default function EventDetailsCard({ event }: EventCardProps) {
       )}
       <Card className='h-fit' key={event.id}>
         {event.isCancelled && <Ribbon />}
-
         <CardHeader className='relative'>
-          <Image
-            placeholderSrc={categoryPlaceholderUrl}
-            src={event.coverImgURL || categoryUrl}
-            alt='event main image'
-            className='rounded-2xl'
-          />
           <div className='relative'>
+            <Image
+              placeholderSrc={categoryPlaceholderUrl}
+              src={event.coverImgURL || categoryUrl}
+              alt='event main image'
+              className='rounded-2xl'
+            />
             {event.hostUid === currentUser?.uid && (
               <Button
                 variant={'outline'}
