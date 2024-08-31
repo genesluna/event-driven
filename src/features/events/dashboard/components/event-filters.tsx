@@ -21,9 +21,10 @@ type Props = {
 
 export default function EventFilters({ setQuery }: Props) {
   const startDate = useRef(new Date());
-  const [filters, setFilters] = useState<{ category?: string; city?: string }>(
-    {}
-  );
+  const [filters, setFilters] = useState<{ category?: string; city?: string }>({
+    category: 'all',
+    city: '',
+  });
 
   const handleSetFilter = useCallback(
     (filter: 'category' | 'city' | 'date', value?: string) => {
